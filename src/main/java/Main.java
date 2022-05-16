@@ -1,3 +1,4 @@
+// Painting Calculator by Jake Stoner
 import java.util.Scanner;
 
 public class Main {
