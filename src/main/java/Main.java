@@ -45,7 +45,7 @@ public class Main {
         }
 
         // Calculate area that needs painting
-        double areaToPaint = wallArea - (doorsArea + socketsArea + windowsArea + radiatorArea + othersArea);
+        double areaToPaint = (double) wallArea - (doorsArea + socketsArea + windowsArea + radiatorArea + othersArea);
         // how much area 1 litre of paint covers in cm
         int litrePerArea = 169000;
 
@@ -70,7 +70,7 @@ public class Main {
         // Find total price of paint
         System.out.println("\nWhats the price of the paint you will use in GBP?");
         int paintCost = myScanner.nextInt();
-        double totalPaintCost = paintCost * bucketsNeeded;
+        double totalPaintCost = (double)paintCost * bucketsNeeded;
         System.out.println("That would be " + totalPaintCost + " GBP in paint costs.");
 
     }
