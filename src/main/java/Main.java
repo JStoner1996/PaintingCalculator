@@ -1,4 +1,4 @@
-// Painting Calculator by Jake Stoner
+// Painting Calculator by Jake Stoner with Sonar Cloud
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
