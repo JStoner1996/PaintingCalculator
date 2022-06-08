@@ -10,6 +10,7 @@ public class Main {
     static int windowsArea = 0;
     static int radiatorArea = 0;
     static int othersArea = 0;
+    static int numDoors;
 
 
     public static void main(String[] args) {
@@ -19,30 +20,41 @@ public class Main {
         System.out.println("\nHello welcome to Paint Calculator 2022.\nIf you do not know the sizes" +
                 " of certain objects, it will use the average UK sizes. \nPlease use centimeters and integers!");
 
+        calculatePaint();
+
+    }
+
+    public static void calculatePaint (){
+        Scanner myScanner = new Scanner(System.in);
         System.out.println("\nHow many walls do you want to paint?");
+        try {
+            int numWalls = myScanner.nextInt();
 
-        int numWalls = myScanner.nextInt();
+            // Find wall sizes and calculate total area
+            for (int wallNumber = 0; wallNumber < numWalls; wallNumber++) {
+                int i = wallNumber + 1;
+                // Find wall info
+                System.out.println("What's the height of wall " + i + "?");
+                int wallheight = myScanner.nextInt();
 
-        // Find wall sizes and calculate total area
-        for (int wallNumber = 0; wallNumber < numWalls; wallNumber++) {
-            int i = wallNumber + 1;
-            // Find wall info
-            System.out.println("What's the length of wall " + i + "?");
-            int wallLength = myScanner.nextInt();
+                System.out.println("What's the width of wall " + i + "?");
+                int wallWidth = myScanner.nextInt();
 
-            System.out.println("What's the width of wall " + i + "?");
-            int wallWidth = myScanner.nextInt();
+                wallArea += wallheight * wallWidth;
 
-            wallArea += wallLength * wallWidth;
+                // Calculate areas
+                doorsArea = calculateDoors(wallNumber);
+                socketsArea = calculateSockets(wallNumber);
+                windowsArea = calculateWindows(wallNumber);
+                radiatorArea = calculateRadiators(wallNumber);
+                othersArea = calculateOthers(wallNumber);
 
-            // Calculate areas
-            doorsArea = calculateDoors(wallNumber);
-            socketsArea = calculateSockets(wallNumber);
-            windowsArea = calculateWindows(wallNumber);
-            radiatorArea =  calculateRadiators(wallNumber);
-            othersArea = calculateOthers(wallNumber);
-
+            }
+        } catch (InputMismatchException exception) {
+            System.out.println("Error: Not a valid input, try again.");
+            calculatePaint();
         }
+
 
         // Calculate area that needs painting
         double areaToPaint = (double) wallArea - (doorsArea + socketsArea + windowsArea + radiatorArea + othersArea);
@@ -50,7 +62,7 @@ public class Main {
         int litrePerArea = 169000;
 
         System.out.println("You need to paint " + areaToPaint + "cm. Rounded up.");
-        double paintAmount = areaToPaint / litrePerArea;
+        double paintAmount = (areaToPaint / litrePerArea) * 2;
 
         // Find paint bucket size
         System.out.println("What size paint buckets will you use, in litres?");
@@ -65,15 +77,15 @@ public class Main {
         }
         // Rounds buckets needed to two decimal places
         int bucketsNeeded = (int) Math.ceil(exactBucketsNeeded);
-        System.out.println("Rounded up that would be " + bucketsNeeded + " buckets.");
+        System.out.println("Rounded up that would be " + bucketsNeeded + " bucket(s).");
 
         // Find total price of paint
         System.out.println("\nWhats the price of the paint you will use in GBP?");
         int paintCost = myScanner.nextInt();
         double totalPaintCost = (double)paintCost * bucketsNeeded;
         System.out.println("That would be " + totalPaintCost + " GBP in paint costs.");
-
     }
+
 
     public static int calculateDoors(int wallNumber) {
         Scanner doorScanner = new Scanner(System.in);
@@ -81,7 +93,7 @@ public class Main {
 
         System.out.println("How many doors on wall " +  (wallNumber + 1) + "?");
         try {
-        int numDoors = doorScanner.nextInt();
+        numDoors = doorScanner.nextInt();
 
             if (numDoors > 0) {
                 System.out.println("Do you know the size of each door? Please state true or false.");
@@ -90,11 +102,11 @@ public class Main {
                 if (knowsDoorSizes == true) {
                     for (int i = 0; i < numDoors; i++) {
                         int j = i + 1;
-                        System.out.println("What's the length of door " + j + " on wall " + (wallNumber + 1) + "?");
-                        int doorLength = doorScanner.nextInt();
+                        System.out.println("What's the height of door " + j + " on wall " + (wallNumber + 1) + "?");
+                        int doorHeight = doorScanner.nextInt();
                         System.out.println("What's the width of door " + j + " on wall " + (wallNumber + 1) + "?");
                         int doorWidth = doorScanner.nextInt();
-                        doorsArea += (doorLength * doorWidth);
+                        doorsArea += (doorHeight * doorWidth);
                         System.out.println(doorsArea);
                     }
                 } else {
@@ -123,11 +135,11 @@ public class Main {
                 if (knowsSocketSizes == true) {
                     for (int i = 0; i < numSockets; i++) {
                         int j = i + 1;
-                        System.out.println("What's the length of socket " + j + " on wall " + (wallNumber + 1) + "?");
-                        int socketLength = socketsScanner.nextInt();
+                        System.out.println("What's the height of socket " + j + " on wall " + (wallNumber + 1) + "?");
+                        int socketHeight = socketsScanner.nextInt();
                         System.out.println("What's the width of socket " + j + " on wall " + (wallNumber + 1) + "?");
                         int socketWidth = socketsScanner.nextInt();
-                        socketsArea += (socketLength * socketWidth);
+                        socketsArea += (socketHeight * socketWidth);
                     }
                 } else {
                     socketsArea = socketSize * numSockets;
@@ -158,11 +170,11 @@ public class Main {
                 if (knowsWindowSizes == true) {
                     for (int i = 0; i < numWindows; i++) {
                         int j = i + 1;
-                        System.out.println("What's the length of window " + j + " on wall " + (wallNumber + 1) + "?");
-                        int windowLength = windowScanner.nextInt();
+                        System.out.println("What's the height of window " + j + " on wall " + (wallNumber + 1) + "?");
+                        int windowHeight = windowScanner.nextInt();
                         System.out.println("What's the width of window " + j + " on wall " + (wallNumber + 1) + "?");
                         int windowWidth = windowScanner.nextInt();
-                        windowsArea += (windowLength * windowWidth);
+                        windowsArea += (windowHeight * windowWidth);
                     }
                 } else {
                     windowsArea = windowsArea * numWindows;
@@ -170,7 +182,7 @@ public class Main {
             }
         } catch (InputMismatchException exception) {
             System.out.println("Error: Not a valid integer, try again.");
-            calculateDoors(wallNumber);
+            calculateWindows(wallNumber);
 
         }
         return windowsArea;
@@ -192,11 +204,11 @@ public class Main {
                     if (knowsWindowSizes == true) {
                         for (int i = 0; i < numRadiators; i++) {
                             int j = i + 1;
-                            System.out.println("What's the length of radiator " + j + " on wall " + (wallNumber + 1) + "?");
-                            int radiatorLength = radiatorScanner.nextInt();
+                            System.out.println("What's the height of radiator " + j + " on wall " + (wallNumber + 1) + "?");
+                            int radiatorHeight = radiatorScanner.nextInt();
                             System.out.println("What's the width of radiator " + j + " on wall " + (wallNumber + 1) + "?");
                             int radiatorWidth = radiatorScanner.nextInt();
-                            radiatorArea += (radiatorLength * radiatorWidth);
+                            radiatorArea += (radiatorHeight * radiatorWidth);
                         }
                     } else {
                         radiatorArea = radiatorArea * numRadiators;
@@ -204,7 +216,7 @@ public class Main {
                 }
             } catch (InputMismatchException exception) {
                 System.out.println("Error: Not a valid integer, try again.");
-                calculateDoors(wallNumber);
+                calculateRadiators(wallNumber);
 
             }
             return radiatorArea;
@@ -215,35 +227,26 @@ public class Main {
 
         int othersSize = 0;
 
-        System.out.println("Do you have any other objects blocking this wall?");
-
-        try {
-            boolean otherItems = othersScanner.nextBoolean();
-
-            if (otherItems == true) {
-
 
                 System.out.println("How many objects on wall " + (wallNumber + 1) + "?");
-
+        try {
                 int numOthers = othersScanner.nextInt();
 
                 if (numOthers > 0) {
                     for (int i = 0; i < numOthers; i++) {
                         int j = i + 1;
-                        System.out.println("What's the length of object " + j + " on wall " + (wallNumber + 1) + "?");
-                        int otherLength = othersScanner.nextInt();
+                        System.out.println("What's the height of object " + j + " on wall " + (wallNumber + 1) + "?");
+                        int otherHeight = othersScanner.nextInt();
                         System.out.println("What's the width of object " + j + " on wall " + (wallNumber + 1) + "?");
                         int otherWidth = othersScanner.nextInt();
-                        othersArea += (otherLength * otherWidth);
+                        othersArea += (otherHeight * otherWidth);
                     }
-                }
-
-            } else {
-                othersArea = 0;
+                }else {
+                    othersArea = 0;
             }
             }catch(InputMismatchException exception){
                 System.out.println("Error: Not a valid integer, try again.");
-                calculateDoors(wallNumber);
+                calculateOthers(wallNumber);
             }
             return othersArea;
 
